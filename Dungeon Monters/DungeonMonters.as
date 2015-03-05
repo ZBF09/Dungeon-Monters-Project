@@ -12,6 +12,7 @@
 		//characters/objects
 		public var player:Player;
 		public var platform:Platform;
+		public var boundry:Boundry;
 		
 		//magic
 		//public var blast:Blast;
@@ -43,6 +44,11 @@
 			//add platform to game on load
 			this.addChildAt(platform, 1);
 			
+			//create boundry
+			boundry = new Boundry();
+			//add boundry to game on load
+			this.addChildAt(boundry, 6);
+			
 			//initialize all key registers to false
 			upKey = false;
 			downKey = false;
@@ -67,6 +73,7 @@
 			//platform.movePlatform();
 			
 			//control checks
+			// upward diagonal checks
 			if(upKey && leftKey){
 				//move player diagonally left
 				player.movePlayer(-1, -1);
@@ -75,23 +82,35 @@
 				//move player diagonally right
 				player.movePlayer(1, -1);
 			}
-			else if(upKey == true){
+			
+			//downward diagonal checks
+			if(downKey && leftKey){
+				//move player diagonally down -> left
+				player.movePlayer(-1, 1);
+			}
+			if(downKey && rightKey){
+				//move player diagonally down -> right
+				player.movePlayer(1, 1);
+			}
+			
+			//basic movement checks
+			else if(upKey){
 				//move player up(jump)
 				player.movePlayer(0, -1);
 			}
-			else if(rightKey == true){
+			else if(rightKey){
 				//move player right
 				player.movePlayer(1, 0);
 			}
-			else if(leftKey == true){
+			else if(leftKey){
 				//move player left
 				player.movePlayer(-1, 0);
 			}
-			else if(downKey == true){
+			else if(downKey){
 				//move player down
 				player.movePlayer(0, 1);
 			}
-			
+		
 			//handle magic blast attack
 			/*if(spaceKey && blastDelay >= blastTime){
 				blast = new Blast(player.x, player.y, player.width);
@@ -118,6 +137,59 @@
 				else if(downKey == true){
 					player.movePlayer(0, -1);
 					trace("hit platform");
+				}
+				else if(downKey == true && rightKey == true){
+					player.movePlayer(-1, -1);
+					trace("hit platform");
+				}
+				else if(downKey == true && leftKey == true){
+					player.movePlayer(1, -1);
+					trace("hit platform");
+				}
+				else if(upKey == true && rightKey == true){
+					player.movePlayer(-1, 1);
+					trace("hit platform");
+				}
+				else if(upKey == true && leftKey == true){
+					player.movePlayer(1, 1);
+					trace("hit platform");
+				}
+			}
+			
+			//test collision between player and boundry
+			if(PixelPerfect.test(player, boundry)){
+				//adjust player position based on collision
+				if(rightKey == true){
+					player.movePlayer(-1, 0);
+					trace("hit boundry");
+				}
+				else if(leftKey == true){
+					player.movePlayer(1, 0);
+					trace("hit boundry");
+				}
+				else if(upKey == true){
+					player.movePlayer(0, 1);
+					trace("hit boundry");
+				}
+				else if(downKey == true){
+					player.movePlayer(0, -1);
+					trace("hit boundry");
+				}
+				else if(downKey == true && rightKey == true){
+					player.movePlayer(-1, -1);
+					trace("hit boundry");
+				}
+				else if(downKey == true && leftKey == true){
+					player.movePlayer(1, -1);
+					trace("hit boundry");
+				}
+				else if(upKey == true && rightKey == true){
+					player.movePlayer(-1, 1);
+					trace("hit boundry");
+				}
+				else if(upKey == true && leftKey == true){
+					player.movePlayer(1, 1);
+					trace("hit boundry");
 				}
 			}
 		}//end controlGame
