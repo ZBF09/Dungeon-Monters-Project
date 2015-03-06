@@ -8,8 +8,8 @@
 		
 		public function Boundry() {
 			// constructor code
-			this.x = 7;
-			this.y = 2;
+			this.x = 0;
+			this.y = 0;
 		}
 	}
 	
