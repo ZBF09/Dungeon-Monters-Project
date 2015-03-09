@@ -1,0 +1,25 @@
+var gravity = 0.9;
+var floor = 251;
+var onFloor:Boolean = false;
+
+player.y = floor;
+player.speedY = 0;
+player.impulsion = 10;
+stage.addEventListener(Event.ENTER_FRAME, enterframe);
+function enterframe(e:Event) {
+    player.speedY += gravity;
+    player.y += player.speedY;
+    if(player.y > floor) {
+        player.speedY = 0;
+        player.y = floor;
+        onFloor = true;
+    }
+
+}
+stage.addEventListener(KeyboardEvent.KEY_DOWN, space);
+function space(e:KeyboardEvent) {
+    if(e.keyCode == Keyboard.SPACE && onFloor) {
+        player.speedY = -player.impulsion;
+        onFloor = false;
+    }
+}
