@@ -1,4 +1,6 @@
-﻿package {
+﻿//Modified: 3/9/2015
+
+package {
 	
 	import flash.display.MovieClip;
 	import flash.events.Event;
@@ -9,6 +11,7 @@
 	
 	public class DungeonMonters extends MovieClip {
 		//world attributes
+		public var gravity:Number;
 		public var floor:int;
 		
 		//characters/objects
@@ -27,6 +30,7 @@
 		public var downKey:Boolean;
 		public var leftKey:Boolean;
 		public var rightKey:Boolean;
+		public var spaceBar:Boolean;
 		
 		//features
 		//public var health:Health;
@@ -57,8 +61,11 @@
 			leftKey = false;
 			rightKey = false;
 			
-			//set floor
-			floor = 680;
+			//set height level
+			floor = 700;
+			
+			//initialize gravity value
+			gravity = 0.8;
 			
 			//create health and magic bars
 			//health = new Health();
@@ -80,12 +87,12 @@
 			//control checks
 			// upward diagonal checks
 			if(upKey && leftKey){
-				player.jump(true, floor);
+				
 				player.movePlayer(-1);
 			}
 			if(upKey && rightKey){
 				//move player diagonally right
-				player.jump(true, floor);
+				
 				player.movePlayer(1);
 			}
 			
@@ -103,7 +110,7 @@
 			//basic movement checks
 			else if(upKey){
 				//move player up(jump)
-				player.jump(true, floor);
+				
 			}
 			else if(rightKey){
 				//move player right
@@ -122,7 +129,7 @@
 			*/
 			
 			//handle magic blast attack
-			/*if(spaceKey && blastDelay >= blastTime){
+			/*if(spaceBar && blastDelay >= blastTime){
 				blast = new Blast(player.x, player.y, player.width);
 				this.addChild(blast);
 				blastHolder.push(blast);
@@ -141,7 +148,7 @@
 					trace("hit platform");
 				}
 				else if(upKey == true){
-					player.jump(true, floor)
+					
 					trace("hit platform");
 				}
 				/*remove down key
@@ -159,12 +166,12 @@
 				}
 				*/
 				else if(upKey == true && rightKey == true){
-					player.jump(true, floor);
+					
 					player.movePlayer(-1);
 					trace("hit platform");
 				}
 				else if(upKey == true && leftKey == true){
-					player.jump(true, floor);
+					
 					player.movePlayer(1);
 					trace("hit platform");
 				}
@@ -182,7 +189,6 @@
 					trace("hit boundry");
 				}
 				else if(upKey == true){
-					player.jump(false, floor);
 					trace("hit boundry");
 				}
 				/*remove down key
@@ -200,12 +206,12 @@
 				}*/
 				
 				else if(upKey == true && rightKey == true){
-					player.jump(false, floor);
+					
 					player.movePlayer(-1);
 					trace("hit boundry");
 				}
 				else if(upKey == true && leftKey == true){
-					player.jump(false, floor);
+					
 					player.movePlayer(1);
 					trace("hit boundry");
 				}
@@ -231,6 +237,9 @@
 			else if(event.keyCode == 40){
 				downKey = true;
 			}
+			else if(event.keyCode == 32){
+				spaceBar = true;
+			}
 		}//end keyIsDown
 		
 		//function to check if key is released
@@ -247,6 +256,24 @@
 			else if(event.keyCode == 40){
 				downKey = false;
 			}
+			else if(event.keyCode == 32){
+				spaceBar = false;
+			}
 		}//end keyIsUp
+		
+		//function to perform jump action
+		/*public function jump(ground:Boolean, floor:int):void{
+			if(ground == true && player.y == floor){
+				player.y -= 20;
+				ground = false;
+			}
+			else if(ground == false && player.y != floor){
+				player.y += gravity;
+				if(player.y > floor){
+					player.y = floor;
+					ground = true;
+				}
+			}
+		}//end jump()*/
 	}
 }
