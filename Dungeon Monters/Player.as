@@ -1,4 +1,4 @@
-﻿//Modified: 2/25/2015
+﻿//Modified: 3/9/2015
 package  {
 	
 	import flash.display.MovieClip;
@@ -11,7 +11,7 @@ package  {
 		public var hp:int;
 		public var maxHp:int;
 		public var speed:int;
-		public var speedY:int;
+		//public var speedY:int;
 		public var mp:int;
 		public var maxMp:int;
 		public var jumpForce:int;
@@ -43,19 +43,29 @@ package  {
 		}//end movePlayer
 		
 		//jump function
-		public function jump(onGround:Boolean, floor:Number):void{
-			if(onGround == true && this.y == floor){
+		/*public function jump(onGround:Boolean):void{
+			if(onGround == true){
 				this.y -= jumpForce;
 				onGround = false;
 			}
-			else if(onGround == false && this.y != floor){
+			//else if(onGround == false && this.y != 680){
+				//this.y += gravity;
+				//if(this.y > 680){
+					//this.y = 680;
+					//onGround = true;
+				//}
+			//}
+		}//end jump*/
+		
+		/*public function applyGravity(onGround:Boolean):void{
+			if(onGround == false && this.y != 530){
 				this.y += gravity;
-				if(this.y > floor){
-					this.y = floor;
-					onGround = true;
+				if(this.y > 530){
+					this.y = 530;
+					onGround == true;
 				}
 			}
-		}//end jump
+		}//end applyGravity()*/
 		
 		public function hit(attack:int):void{
 			//when hit reduce health by attack value
