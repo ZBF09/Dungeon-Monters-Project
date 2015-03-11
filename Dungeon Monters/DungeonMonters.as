@@ -1,4 +1,4 @@
-﻿//Modified: 3/9/2015
+﻿//Modified: 3/11/2015
 
 package {
 	
@@ -7,12 +7,19 @@ package {
 	import flash.events.KeyboardEvent; //detect keyboard events
 	import flash.ui.Keyboard; // using the keyboard controls
 	import skyboy.CollisionDetection.PixelPerfect; // collision detection class
-	import flash.ui.Mouse; //used to remove the mouse cursor from screen
+	import flash.ui.Mouse;
+	import flash.display.Loader;
+	import flash.net.URLRequest;
+	import flash.media.SoundChannel;
+	import flash.media.SoundTransform;
+
+ //used to remove the mouse cursor from screen
 	
 	public class DungeonMonters extends MovieClip {
 		//world attributes
 		public var gravity:Number;
 		public var floor:int;
+		public var loader:Loader = new Loader();
 		
 		//characters/objects
 		public var player:Player;
@@ -36,9 +43,31 @@ package {
 		//public var health:Health;
 		//public var magic:Magic;
 		
-		public function DungeonMonters() {
+		//sound
+		public var dungeon1Music:Dungeon1Music;
+		public var musicPlayer:SoundChannel;
+		public var soundPlayer:SoundChannel;
+		public var musicPosition:Number;
+		public var soundTransformer:SoundTransform;
+		
+		public function DungeonMonters(sound:Boolean, music:Boolean) {
 			// constructor code
 			PixelPerfect.registerRoot(this);
+			
+			//add sound
+			soundOn = sound;
+			musicOn = music;
+			//check is sound is on
+			if(musicOn){				
+				dungeon1Music = new Dungeon1Music();
+				musicPlayer = dungeon1Music.play();
+				musicPlayer.addEventListener(Event.SOUND_COMPLETE, loopMusic, false, 0, true);
+				musicPosition = musicPlayer.position;
+				musicPlayer = dungeon1Music.play(musicPosition);
+				soundTransformer = new SoundTransform();
+				soundTransformer = 0.5;
+				musicPlayer.soundTransform = soundTransformer;
+			}
 			
 			//create player
 			player = new Player();
@@ -71,7 +100,7 @@ package {
 			//health = new Health();
 			//magic = new Magic();
 			//this.addChild(health, 0);
-			//this.addChild(magic, 0);
+			//this.addChild(magic, 0);			
 			
 			this.addEventListener(Event.ENTER_FRAME, controlGame, false, 0, true);
 			this.addEventListener(Event.ADDED_TO_STAGE, onAdded, false, 0, true);
@@ -111,14 +140,32 @@ package {
 			else if(upKey){
 				//move player up(jump)
 				
+				//load jump animation
 			}
 			else if(rightKey){
 				//move player right
 				player.movePlayer(1);
+				//load walking right animation
+				if(rightKey == true){
+					//load animation swf
+					loader.contentLoaderInfo.addEventListener(Event.COMPLETE, handle);
+					loader.load(new URLRequest("walking_blue.swf"));
+				}
+				else{
+					//remove loader for animated character
+					loader.contentLoaderInfo.addEventListener(Event.COMPLETE, unloadSwf);
+					loader.load(new URLRequest("walking_blue.swf"));
+					//add loader for static character
+					loader.contentLoaderInfo.addEventListener(Event.COMPLETE, handle);
+					loader.load(new URLRequest("player_blue.swf"));
+				}
+				
 			}
 			else if(leftKey){
 				//move player left
 				player.movePlayer(-1);
+				//load walking left animation
+				
 			}
 			
 			/*remove down key
@@ -260,6 +307,16 @@ package {
 				spaceBar = false;
 			}
 		}//end keyIsUp
+		
+		//function to add swf to game
+		public function handle(event:Event):void{
+			addChild(event.target.content);
+		}
+		
+		//function to remove swf from game
+		public function unloadSwf(event:Event):void{
+			removeChild(event.target.content);
+		}
 		
 		//function to perform jump action
 		/*public function jump(ground:Boolean, floor:int):void{
