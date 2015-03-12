@@ -1,4 +1,5 @@
-﻿package {
+﻿// Modified: 3/11/2015
+package {
 	
 	import flash.display.MovieClip;
 	import flash.events.Event;
@@ -23,7 +24,7 @@
 			mainMenu = null;*/
 			
 			//add the game
-			dungeonMonters = new DungeonMonters();
+			dungeonMonters = new DungeonMonters(true, true);
 			this.addChild(dungeonMonters);
 			stage.stageFocusRect = false;
 			stage.focus = dungeonMonters;
