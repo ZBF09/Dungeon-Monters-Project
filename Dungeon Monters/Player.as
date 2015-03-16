@@ -14,8 +14,8 @@ package  {
 		//public var speedY:int;
 		public var mp:int;
 		public var maxMp:int;
-		public var jumpForce:int;
-		public var gravity:Number;
+		//public var jumpForce:int;
+		//public var gravity:Number;
 		
 		//public var magicType:String;
 		
@@ -27,8 +27,8 @@ package  {
 			maxMp = 100;
 			maxHp = 100;
 			speed = 10;
-			jumpForce = 20;
-			gravity = 0.8;
+			//jumpForce = 20;
+			//gravity = 0.8;
 			//magicType = "None";
 			this.x = 80; //character starting x position 
 			this.y = 530; //character starting y position

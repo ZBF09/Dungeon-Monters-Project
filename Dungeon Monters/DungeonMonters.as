@@ -1,4 +1,4 @@
-﻿//Modified: 3/11/2015
+﻿//Modified: 3/13/2015
 
 package {
 	//flash libs BZ
@@ -8,8 +8,8 @@ package {
 	import flash.ui.Keyboard; // using the keyboard controls
 	import skyboy.CollisionDetection.PixelPerfect; // collision detection class
 	import flash.ui.Mouse;
-	import flash.display.Loader;
-	import flash.net.URLRequest;
+	//import flash.display.Loader;
+	//import flash.net.URLRequest;
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
 
@@ -17,9 +17,9 @@ package {
 	
 	public class DungeonMonters extends MovieClip {
 		//world attributes
-		public var gravity:Number;
-		public var floor:int;
-		public var loader:Loader = new Loader();
+		//public var gravity:Number;
+		//public var floor:int;
+		//public var loader:Loader = new Loader();
 		
 		//characters/objects
 		public var player:Player;
@@ -50,37 +50,34 @@ package {
 		public var musicPosition:Number;
 		public var soundTransformer:SoundTransform;
 		
-		public function DungeonMonters(sound:Boolean, music:Boolean) {
+		//options
+		//public var soundOn:Boolean;
+		public var musicOn:Boolean;
+		
+		public function DungeonMonters(music:Boolean) {
 			// constructor code
-			PixelPerfect.registerRoot(this);
 			
 			//add sound
-			soundOn = sound;
+			//soundOn = sound;
 			musicOn = music;
-			//check is sound is on
-			if(musicOn){				
-				dungeon1Music = new Dungeon1Music();
-				musicPlayer = dungeon1Music.play();
-				musicPlayer.addEventListener(Event.SOUND_COMPLETE, loopMusic, false, 0, true);
-				musicPosition = musicPlayer.position;
-				musicPlayer = dungeon1Music.play(musicPosition);
-				soundTransformer = new SoundTransform();
-				soundTransformer = 0.5;
-				musicPlayer.soundTransform = soundTransformer;
-			}
+			
+			PixelPerfect.registerRoot(this);
 			
 			//create player
 			player = new Player();
+			
 			//add player to game on load
 			this.addChildAt(player, 1);
 			
 			//create platform
 			platform = new Platform();
+			
 			//add platform to game on load
 			this.addChildAt(platform, 1);
 			
 			//create boundry
 			boundry = new Boundry();
+			
 			//add boundry to game on load
 			this.addChildAt(boundry, 5);
 			
@@ -91,16 +88,28 @@ package {
 			rightKey = false;
 			
 			//set height level
-			floor = 700;
+			//floor = 700;
 			
 			//initialize gravity value
-			gravity = 0.8;
+			//gravity = 0.8;
 			
 			//create health and magic bars
 			//health = new Health();
 			//magic = new Magic();
 			//this.addChild(health, 0);
-			//this.addChild(magic, 0);			
+			//this.addChild(magic, 0);		
+			
+			//check is sound is on
+			if(musicOn){				
+				dungeon1Music = new Dungeon1Music(); //new instance of music
+				musicPlayer = dungeon1Music.play(); //set music player to instance.play()
+				musicPlayer.addEventListener(Event.SOUND_COMPLETE, loopMusic, false, 0, true);
+				musicPosition = musicPlayer.position;
+				musicPlayer = dungeon1Music.play(musicPosition); 
+				soundTransformer = new SoundTransform();
+				soundTransformer.volume = 0.5;
+				musicPlayer.soundTransform = soundTransformer;
+			}//end if
 			
 			this.addEventListener(Event.ENTER_FRAME, controlGame, false, 0, true);
 			this.addEventListener(Event.ADDED_TO_STAGE, onAdded, false, 0, true);
@@ -148,16 +157,12 @@ package {
 				//load walking right animation
 				if(rightKey == true){
 					//load animation swf
-					loader.contentLoaderInfo.addEventListener(Event.COMPLETE, handle);
-					loader.load(new URLRequest("walking_blue.swf"));
 				}
 				else{
 					//remove loader for animated character
-					loader.contentLoaderInfo.addEventListener(Event.COMPLETE, unloadSwf);
-					loader.load(new URLRequest("walking_blue.swf"));
+		
 					//add loader for static character
-					loader.contentLoaderInfo.addEventListener(Event.COMPLETE, handle);
-					loader.load(new URLRequest("player_blue.swf"));
+					
 				}
 				
 			}
@@ -309,14 +314,14 @@ package {
 		}//end keyIsUp
 		
 		//function to add swf to game
-		public function handle(event:Event):void{
+		/*public function handle(event:Event):void{
 			addChild(event.target.content);
-		}
+		}*/
 		
 		//function to remove swf from game
-		public function unloadSwf(event:Event):void{
+		/*public function unloadSwf(event:Event):void{
 			removeChild(event.target.content);
-		}
+		}*/
 		
 		//function to perform jump action
 		/*public function jump(ground:Boolean, floor:int):void{
@@ -332,5 +337,11 @@ package {
 				}
 			}
 		}//end jump()*/
+		
+		//function to loop music
+		public function loopMusic(event:Event):void{
+			musicPlayer = dungeon1Music.play();
+			musicPlayer.addEventListener(Event.SOUND_COMPLETE, loopMusic, false, 0, true);
+		}
 	}
 }
