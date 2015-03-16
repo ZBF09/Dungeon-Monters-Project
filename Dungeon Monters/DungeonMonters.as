@@ -44,22 +44,22 @@ package {
 		//public var magic:Magic;
 		
 		//sound
-		public var dungeon1Music:Dungeon1Music;
+		/*public var dungeon1Music:Dungeon1Music;
 		public var musicPlayer:SoundChannel;
 		public var soundPlayer:SoundChannel;
 		public var musicPosition:Number;
-		public var soundTransformer:SoundTransform;
+		public var soundTransformer:SoundTransform;*/
 		
 		//options
 		//public var soundOn:Boolean;
-		public var musicOn:Boolean;
+		//public var musicOn:Boolean;
 		
-		public function DungeonMonters(music:Boolean) {
+		public function DungeonMonters() {
 			// constructor code
 			
 			//add sound
 			//soundOn = sound;
-			musicOn = music;
+			//musicOn = music;
 			
 			PixelPerfect.registerRoot(this);
 			
@@ -100,7 +100,7 @@ package {
 			//this.addChild(magic, 0);		
 			
 			//check is sound is on
-			if(musicOn){				
+			/*if(musicOn){				
 				dungeon1Music = new Dungeon1Music(); //new instance of music
 				musicPlayer = dungeon1Music.play(); //set music player to instance.play()
 				musicPlayer.addEventListener(Event.SOUND_COMPLETE, loopMusic, false, 0, true);
@@ -109,7 +109,7 @@ package {
 				soundTransformer = new SoundTransform();
 				soundTransformer.volume = 0.5;
 				musicPlayer.soundTransform = soundTransformer;
-			}//end if
+			}//end if*/
 			
 			this.addEventListener(Event.ENTER_FRAME, controlGame, false, 0, true);
 			this.addEventListener(Event.ADDED_TO_STAGE, onAdded, false, 0, true);
@@ -339,9 +339,9 @@ package {
 		}//end jump()*/
 		
 		//function to loop music
-		public function loopMusic(event:Event):void{
+		/*public function loopMusic(event:Event):void{
 			musicPlayer = dungeon1Music.play();
 			musicPlayer.addEventListener(Event.SOUND_COMPLETE, loopMusic, false, 0, true);
-		}
+		}*/
 	}
 }

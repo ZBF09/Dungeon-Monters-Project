@@ -11,13 +11,13 @@ package {
 		//public var mainMenu:MainMenu;
 		public var dungeonMonters:DungeonMonters;
 		//public var soundIsOn:Boolean;
-		public var musicIsOn:Boolean;
+		//public var musicIsOn:Boolean;
 		//public var gameOver:GameOver;
 		
 		public function DocumentClass() {
 			// constructor code
 			//soundIsOn = true;
-			musicIsOn = true;
+			//musicIsOn = true;
 			//mainMenu = new MainMenu();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAdded, false, 0, true);
 		}//end DocumentClass() constructor
@@ -30,7 +30,7 @@ package {
 			mainMenu = null;*/
 			
 			//add the game
-			dungeonMonters = new DungeonMonters(musicIsOn);
+			dungeonMonters = new DungeonMonters();
 			this.addChild(dungeonMonters);
 			stage.stageFocusRect = false;
 			stage.focus = dungeonMonters;
@@ -62,7 +62,7 @@ package {
 		}//end muteUnmuteSound()*/
 		
 		//muteUnmuteMusic function
-		public function muteUnmuteMusic(event:Event):void{
+		/*public function muteUnmuteMusic(event:Event):void{
 			//to mute the music
 			if(musicIsOn){ //if true switch to false
 				musicIsOn = false;
@@ -70,7 +70,7 @@ package {
 			else{//else false switch to true
 				musicIsOn = true;
 			}
-		}//end muteUnmuteMusic()
+		}//end muteUnmuteMusic()*/
 	}
 	
 }
