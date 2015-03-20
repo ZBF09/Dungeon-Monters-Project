@@ -8,16 +8,20 @@ package {
 	import flash.ui.Keyboard; // using the keyboard controls
 	import skyboy.CollisionDetection.PixelPerfect; // collision detection class
 	import flash.ui.Mouse; //used to remove the mouse cursor from screen
+	import flash.media.SoundChannel; //used for sound control
 	
 	public class DungeonMonters extends MovieClip {
+		
 		//world attributes
 		public var gravity:Number;
 		public var floor:int;
+		public var xScrollSpeed:int;
+		public var yScrollSpeed:int;
 		
 		//characters/objects
 		public var player:Player;
 		public var platform:Platform;
-		public var boundry:Boundry;
+		public var boundry:BlockPlatform;
 		
 		//magic
 		//public var blast:Blast;
@@ -32,9 +36,14 @@ package {
 		public var rightKey:Boolean;
 		public var spaceBar:Boolean;
 		
+		
 		//features
 		//public var health:Health;
 		//public var magic:Magic;
+		
+		//Audio
+		public var backgroundMusic:Dungeon1Music;
+		public var bgrdSoundChannel:SoundChannel;
 		
 		public function DungeonMonters() {
 			// constructor code
@@ -51,8 +60,10 @@ package {
 			this.addChildAt(platform, 1);
 			
 			//create boundry
-			boundry = new Boundry();
+			//boundry = new Boundry();
+			boundry = new BlockPlatform();
 			//add boundry to game on load
+			//this.addChildAt(boundry, 5);
 			this.addChildAt(boundry, 5);
 			
 			//initialize all key registers to false
@@ -62,10 +73,10 @@ package {
 			rightKey = false;
 			
 			//set height level
-			floor = 700;
+			//floor = 700;
 			
 			//initialize gravity value
-			gravity = 0.8;
+			//gravity = 0.8;
 			
 			//create health and magic bars
 			//health = new Health();
@@ -73,9 +84,16 @@ package {
 			//this.addChild(health, 0);
 			//this.addChild(magic, 0);
 			
+			//Create audio track
+			backgroundMusic = new Dungeon1Music();
+			bgrdSoundChannel = backgroundMusic.play(0, 10);
+			bgrdSoundChannel.addEventListener(Event.SOUND_COMPLETE, onBackgroundMusicFinished);
+			
+			//event listener to scroll the background
+			this.addEventListener(Event.ENTER_FRAME, loop, false, 0, true);
 			this.addEventListener(Event.ENTER_FRAME, controlGame, false, 0, true);
 			this.addEventListener(Event.ADDED_TO_STAGE, onAdded, false, 0, true);
-				
+			
 		}
 		
 		public function controlGame(event:Event):void{
@@ -218,6 +236,23 @@ package {
 			}
 		}//end controlGame
 		
+		public function loop(event:Event):void{
+			if(leftKey){
+				this.x += xScrollSpeed;
+			}
+			else if(rightKey){
+				this.x -= xScrollSpeed;
+			}
+			
+			if(upKey){
+				this.y += yScrollSpeed;
+			}
+			else if(downKey){
+				this.y -= yScrollSpeed;
+			}
+		}
+		
+		//This function adds keyBoard event listeners when the game 
 		public function onAdded(event:Event):void{
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyIsDown, false, 0, true);
 			stage.addEventListener(KeyboardEvent.KEY_UP, keyIsUp, false, 0, true);
@@ -275,5 +310,12 @@ package {
 				}
 			}
 		}//end jump()*/
+		
+		//event handler for audio playback
+		//does no stop condition yet
+		public function onBackgroundMusicFinished(event:Event):void{
+			bgrdSoundChannel = backgroundMusic.play();
+			bgrdSoundChannel.addEventListener(Event.SOUND_COMPLETE, onBackgroundMusicFinished);
+		}
 	}
 }
